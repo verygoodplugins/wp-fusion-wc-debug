@@ -4,7 +4,7 @@
 Plugin Name: WP Fusion - WooCommerce Debug
 Description: Enables detailed debug logging for WP Fusion and WooCommerce to troubleshoot checkout issues.
 Plugin URI: https://wpfusion.com/
-Version: 1.0
+Version: 1.1
 Author: Very Good Plugins
 Author URI: https://verygoodplugins.com/
 Text Domain: wp-fusion
@@ -36,6 +36,26 @@ if ( ! function_exists( 'add_action' ) ) {
 	exit();
 }
 
+// Subscription trial end
+
+function wpf_wc_debug_trial_end( $subscription ) {
+
+	$subscription_object = wcs_get_subscription( $subscription_id );
+	wpf_log( 'info', 0, 'DEBUG: Trial end, priority 5, user ID: ' . $subscription_object->get_user_id() );
+
+}
+
+add_action( 'woocommerce_scheduled_subscription_trial_end', 'wpf_wc_debug_trial_end', 5 );
+
+function wpf_wc_debug_trial_end_15( $subscription ) {
+
+	$subscription_object = wcs_get_subscription( $subscription_id );
+	wpf_log( 'info', 0, 'DEBUG: Trial end, priority 15, user ID: ' . $subscription_object->get_user_id() );
+
+}
+
+add_action( 'woocommerce_scheduled_subscription_trial_end', 'wpf_wc_debug_trial_end_15', 15 );
+
 // IPN request
 
 function wpf_wc_debug_ipn_request( $posted ) {
@@ -59,6 +79,12 @@ function wpf_wc_debug_payment_complete( $order_id ) {
 }
 
 add_action( 'woocommerce_payment_complete', 'wpf_wc_debug_payment_complete' );
+
+function wpf_wc_debug_wpf_payment_complete( $order_id ) {
+	wpf_log( 'info', 0, 'DEBUG: WPF payment complete: ' . $order_id );
+}
+
+add_action( 'wpf_woocommerce_payment_complete', 'wpf_wc_debug_wpf_payment_complete' );
 
 // Processing, priority 1
 

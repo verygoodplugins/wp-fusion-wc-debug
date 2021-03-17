@@ -4,7 +4,7 @@
 Plugin Name: WP Fusion - WooCommerce Debug
 Description: Enables detailed debug logging for WP Fusion and WooCommerce to troubleshoot checkout issues.
 Plugin URI: https://wpfusion.com/
-Version: 1.1
+Version: 1.1.1
 Author: Very Good Plugins
 Author URI: https://verygoodplugins.com/
 Text Domain: wp-fusion
@@ -38,7 +38,7 @@ if ( ! function_exists( 'add_action' ) ) {
 
 // Subscription trial end
 
-function wpf_wc_debug_trial_end( $subscription ) {
+function wpf_wc_debug_trial_end( $subscription_id ) {
 
 	$subscription_object = wcs_get_subscription( $subscription_id );
 	wpf_log( 'info', 0, 'DEBUG: Trial end, priority 5, user ID: ' . $subscription_object->get_user_id() );
@@ -47,7 +47,7 @@ function wpf_wc_debug_trial_end( $subscription ) {
 
 add_action( 'woocommerce_scheduled_subscription_trial_end', 'wpf_wc_debug_trial_end', 5 );
 
-function wpf_wc_debug_trial_end_15( $subscription ) {
+function wpf_wc_debug_trial_end_15( $subscription_id ) {
 
 	$subscription_object = wcs_get_subscription( $subscription_id );
 	wpf_log( 'info', 0, 'DEBUG: Trial end, priority 15, user ID: ' . $subscription_object->get_user_id() );
